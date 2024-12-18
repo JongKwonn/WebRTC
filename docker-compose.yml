@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  kurento:
+    image: kurento/kurento-media-server
+    container_name: kurento
+    ports:
+      - "8888:8888"
+
+  mediasoup:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: mediasoup
+    command: node sfuServer.js
+    ports:
+      - "3001:3000"
+
+  stun:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: stun
+    command: node stunServer.js
+    ports:
+      - "3478:3478/udp"
+
+  video_server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: video_server
+    command: node videoServer.js
+    ports:
+      - "8080:8080"
+
+  dynamic_server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: dynamic_server
+    command: node dynamicServer.js
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: "512MB"
+          cpus: "0.5"
+        reservations:
+          memory: "256MB"
+          cpus: "0.25"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - "3000:80"
+
+volumes:
+  mongo_data:

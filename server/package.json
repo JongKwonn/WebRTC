@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1",
+    "gridfs-stream": "^1.1.1",
+    "kurento-client": "^7.1.0",
+    "mongoose": "^8.7.3",
+    "uuid": "^11.0.2",
+    "ws": "^8.18.0",
+    "mediasoup": "^3.10.6"
+  }
+}
